@@ -6,7 +6,7 @@
 
 - Họ tên: Nguyễn Cao Ngọc Đức.
 - MSSV: 2A202603178.
-- Email: Chưa được học viên cung cấp để ghi vào bài nộp.
+- Email: [26ai.ducncn@vinuni.edu.vn](mailto:26ai.ducncn@vinuni.edu.vn).
 - Lớp: K5-L2A.
 - [Repo bài làm](https://github.com/ducnguyen-ai/K5-L2A-Day02-NguyenCaoNgocDuc-2A202603178-ObjectDetection).
 - [Mở notebook trên Colab](https://colab.research.google.com/github/ducnguyen-ai/K5-L2A-Day02-NguyenCaoNgocDuc-2A202603178-ObjectDetection/blob/main/notebooks/day2_annotation_to_yolo.ipynb). Link này mở mã nguồn. [Phiên thử nghiệm trên Drive](https://colab.research.google.com/drive/1ffYqPHqhVnkxo3nR8j2tSafWGl36itzn).

@@ -45,7 +45,7 @@ Sau lab, bạn có thể:
 | 4 | [GUIDELINE_MINI.md](GUIDELINE_MINI.md) | Mẫu guideline cá nhân **bạn phải điền** | Điền **trước** khi gán nhãn (CP1) |
 | 5 | [RUBRIC.md](RUBRIC.md) | Tiêu chí chấm điểm và mức chất lượng | Đọc trước khi làm để biết cần đạt gì |
 | 6 | [SUBMISSION.md](SUBMISSION.md) | Cách đặt tên repo, cấu trúc nộp, xử lý kết quả Colab | Đối chiếu **trước khi nộp** |
-| 7 | [report/individual/MSSV_HoTen.md](report/individual/MSSV_HoTen.md) | Mẫu báo cáo cá nhân | Điền **cuối cùng**, tập hợp kết quả |
+| 7 | [report/individual/2A202603178_NguyenCaoNgocDuc.md](report/individual/2A202603178_NguyenCaoNgocDuc.md) | Mẫu báo cáo cá nhân | Điền **cuối cùng**, tập hợp kết quả |
 
 > Mẹo: đọc 1–3 và 5 trước buổi lab để nắm rõ ràng phải làm và chấm; điền 4 (guideline) trong buổi; đối chiếu 6 và điền 7 ở giai đoạn nộp.
 
@@ -56,7 +56,7 @@ Sau lab, bạn có thể:
 - `outputs/annotation_evaluation.json`: kết quả chấm sau khi giảng viên phát gold labels.
 - Link Colab đã chạy và ảnh/chỉ số đánh giá model trên tập `eval`.
 
-Điền [báo cáo cá nhân](report/individual/MSSV_HoTen.md) để tập hợp các đầu ra trên; mẫu báo cáo không thêm bài tập hoặc tiêu chí điểm mới.
+Điền [báo cáo cá nhân](report/individual/2A202603178_NguyenCaoNgocDuc.md) để tập hợp các đầu ra trên; mẫu báo cáo không thêm bài tập hoặc tiêu chí điểm mới.
 
 ## Chuẩn bị và bắt đầu
 
@@ -66,7 +66,7 @@ Sau lab, bạn có thể:
 - Gán nhãn rồi **commit và push** `dataset/labels/train/` lên repo của bạn — đây là bản dữ liệu Colab sẽ tự clone.
 - Trên Colab, mở notebook `notebooks/day2_annotation_to_yolo.ipynb` (từ trang GitHub của repo, mở bằng nút Colab, hoặc dán URL repo). Chọn runtime có GPU nếu được cấp. Cell đầu tự clone repo của bạn về Colab — không cần upload file hay zip.
 
-Đọc các file tài liệu theo thứ tự ở mục **Thứ tự đọc tài liệu** ở trên; khi chuẩn bị nộp, đối chiếu [SUBMISSION.md](SUBMISSION.md), [RUBRIC.md](RUBRIC.md) và [mẫu báo cáo](report/individual/MSSV_HoTen.md).
+Đọc các file tài liệu theo thứ tự ở mục **Thứ tự đọc tài liệu** ở trên; khi chuẩn bị nộp, đối chiếu [SUBMISSION.md](SUBMISSION.md), [RUBRIC.md](RUBRIC.md) và [mẫu báo cáo](report/individual/2A202603178_NguyenCaoNgocDuc.md).
 
 ## Cấu trúc thư mục
 
