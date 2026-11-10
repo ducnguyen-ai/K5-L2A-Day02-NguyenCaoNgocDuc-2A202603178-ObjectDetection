@@ -9,7 +9,7 @@
 - Email: Chưa được học viên cung cấp để ghi vào bài nộp.
 - Lớp: K5-L2A.
 - [Repo bài làm](https://github.com/ducnguyen-ai/K5-L2A-Day02-NguyenCaoNgocDuc-2A202603178-ObjectDetection).
-- [Mở notebook trên Colab](https://colab.research.google.com/github/ducnguyen-ai/K5-L2A-Day02-NguyenCaoNgocDuc-2A202603178-ObjectDetection/blob/main/notebooks/day2_annotation_to_yolo.ipynb). Link này mở mã nguồn; chưa phải bằng chứng phiên chạy đã hoàn tất.
+- [Mở notebook trên Colab](https://colab.research.google.com/github/ducnguyen-ai/K5-L2A-Day02-NguyenCaoNgocDuc-2A202603178-ObjectDetection/blob/main/notebooks/day2_annotation_to_yolo.ipynb). Link này mở mã nguồn. [Phiên thử nghiệm trên Drive](https://colab.research.google.com/drive/1ffYqPHqhVnkxo3nR8j2tSafWGl36itzn).
 
 ## 2. Schema và mini guideline
 
@@ -26,7 +26,7 @@
 
 ## 4. Gold QC và rework
 
-Nguồn: [annotation_evaluation.json](../../outputs/annotation_evaluation.json), đối chiếu kết quả học viên cung cấp. Matching cùng lớp, IoU ≥ 0,50.
+Nguồn: [annotation_evaluation.json](../../outputs/annotation_evaluation.json), đối chiếu kết quả học viên cung cấp và chạy lại evaluator ngày 10/11/2026 cho kết quả giống hoàn toàn. Matching cùng lớp, IoU ≥ 0,50.
 
 | Chỉ số | Trước sửa | Sau sửa |
 |---|---:|---|
@@ -45,27 +45,39 @@ Ví dụ cần ưu tiên đối chiếu bằng mắt: drive_028 có 22 box học
 
 ## 5. Kết quả YOLO
 
-**Chế độ thử nghiệm theo yêu cầu học viên khi QC chưa đạt.** Không coi lần chạy này là đã vượt cổng annotation.
+**Đã chạy thử nghiệm đủ 50 epoch trên Google Colab ngày 10/11/2026 theo yêu cầu học viên khi gold QC chưa đạt.** Kết quả model không thay thế CP5.
 
-- Cấu hình dự kiến theo notebook: YOLO26n, 50 epochs, imgsz=640, seed=20260909; batch tự chọn trên GPU, batch=8 nếu CPU; workers=2.
-- Runtime, GPU, Torch, Ultralytics: Chờ kết quả phiên chạy thực tế.
-- Best checkpoint trong runtime: Chờ kết quả; không commit `.pt` vào repo.
+- Runtime: Python 3.13.16, GPU Tesla T4; Torch 2.14.1+cu130; Ultralytics 8.4.208.
+- Nguồn dữ liệu/mã lúc chạy: commit `39dee24b7dd833096980eabe2ed38830b2f06a8f`.
+- YOLO26n pretrained; epochs=50, imgsz=640, batch=-1 trên GPU, seed=20260909, workers=2. Workers=2 được đặt rõ cho runtime Colab; model và split được giữ nguyên.
+- Log ghi 50 epoch hoàn tất trong 0,023 giờ; [results.csv](assets/yolo26_runs/vehicle_annotation/results.csv) có 50 dòng epoch.
+- Best checkpoint trong runtime: `/content/Day2-Lab/outputs/yolo26_runs/vehicle_annotation/weights/best.pt`. Không đưa checkpoint vào repo.
+- [Notebook đã chạy, có đầu ra](../../notebooks/day2_annotation_to_yolo.ipynb); [phiên Colab](https://colab.research.google.com/drive/1ffYqPHqhVnkxo3nR8j2tSafWGl36itzn).
+
+Các số dưới đây lấy từ **cell đánh giá riêng của best_model.val** trên 10 ảnh eval, lưu tại [model_eval_metrics.json](assets/model_eval_metrics.json). Không lấy dòng epoch cuối làm số đánh giá best checkpoint. Số val tự động cuối train có chênh lệch nhẹ; báo cáo dùng nhất quán JSON của lần val riêng.
 
 | Chỉ số trên 10 ảnh eval | Giá trị |
-|---|---|
-| Precision | Chưa có kết quả chạy hoàn tất |
-| Recall | Chưa có kết quả chạy hoàn tất |
-| mAP50 | Chưa có kết quả chạy hoàn tất |
-| mAP50–95 | Chưa có kết quả chạy hoàn tất |
+|---|---:|
+| Precision | 0.1881 |
+| Recall | 0.4671 |
+| mAP50 | 0.3047 |
+| mAP50–95 | 0.2011 |
 
-Chờ bổ sung `assets/eval_predictions/`, `assets/yolo26_runs/`, metrics và link phiên Colab đã chạy.
+| Lớp | Precision | Recall | mAP50 | mAP50–95 |
+|---|---:|---:|---:|---:|
+| car | 0.1972 | 0.9149 | 0.7164 | 0.4666 |
+| truck | 0.5028 | 0.2034 | 0.4454 | 0.3029 |
+| bus | 0.0050 | 0.5000 | 0.0330 | 0.0231 |
+| van | 0.0475 | 0.2500 | 0.0240 | 0.0120 |
 
-Các điểm phân tích cần học viên hoàn thiện sau khi có kết quả:
+Đầu ra kèm theo: [10 ảnh dự đoán eval](assets/eval_predictions/visuals/), [log/biểu đồ train](assets/yolo26_runs/vehicle_annotation/), [biểu đồ eval](assets/yolo26_runs/vehicle_eval/), [confusion matrix](assets/yolo26_runs/vehicle_eval/confusion_matrix.png), [PR curve](assets/yolo26_runs/vehicle_eval/BoxPR_curve.png). Prediction trực quan dùng conf=0,25; không đồng nhất ngưỡng này với ngưỡng dùng tính P/R hoặc confusion matrix trong val.
 
-1. Chưa xác định lớp có recall thấp nhất; phải đọc metric từng lớp và kiểm một ảnh eval cụ thể.
-2. Nếu mAP50 cao nhưng mAP50–95 thấp, cần kiểm độ chính xác định vị và độ sát của box ở các ngưỡng IoU cao. Chưa kết luận tình trạng này xảy ra trong phiên chạy.
-3. Chưa có dự đoán để xác nhận nhầm truck/bus/van/car. Cần đối chiếu confusion matrix với ảnh và guideline; class imbalance chỉ là một giả thuyết cần dữ kiện hỗ trợ.
-4. Mười ảnh eval có nhãn được dùng làm validation trong train và để chọn best checkpoint. Đưa chúng vào train gây rò rỉ dữ liệu; chúng không phải test set độc lập, do đã tham gia chọn checkpoint.
+Phân tích từ kết quả, cần học viên tự đọc và xác nhận:
+
+1. **Truck có recall thấp nhất: 0,2034.** Trong [drive_053.jpg](assets/eval_predictions/visuals/drive_053.jpg), vùng gold truck có tâm chuẩn hóa khoảng (0,2773; 0,4000), ở làn đối diện phía trái, lại mang dự đoán `car 0.81`. Log predict không có truck ở conf=0,25 trên ảnh này. Đây là ví dụ cụ thể của sai lớp; không tự sửa gold dựa trên dự đoán. Lớp truck chỉ có 34 box train và 5 box eval, nên kết quả nhạy với ít mẫu.
+2. **mAP50=0,3047 và mAP50–95=0,2011**, chênh 0,1036. Khi yêu cầu IoU cao hơn, chất lượng giảm; cần kiểm box lỏng, lệch tâm và box trên xe che/cắt khung. mAP50 hiện cũng thấp, nên không mô tả kết quả là “mAP50 cao”. Mean IoU annotation=0,8542 chỉ tính các cặp khớp, không bảo đảm model định vị tốt trên eval.
+3. Confusion matrix của lần val ghi 2 truck thành car và 3 truck thành bus; 8 van thành bus. Trong [drive_053](assets/eval_predictions/visuals/drive_053.jpg), xe buýt lớn phía dưới còn bị đặt nhiều box car lên các vùng kính/mái thay vì một box bus bám toàn bộ xe. Cần rà lại guideline phân biệt cấu trúc thân xe và quy tắc mỗi xe một box. Mất cân bằng lớp và gold QC thấp là các giả thuyết có dữ kiện hỗ trợ, nhưng chưa chứng minh nguyên nhân duy nhất; cần rework rồi so sánh trong cùng cấu hình. Confusion matrix thuộc lần val, không diễn giải các FP của nó như đếm box ở conf=0,25.
+4. Mười ảnh eval có nhãn được dùng làm validation trong train và chọn best checkpoint. Đưa chúng vào train gây rò rỉ dữ liệu; chúng không phải test set độc lập do đã tham gia chọn checkpoint. Giữ 50 train/10 eval và không sửa gold eval để cải thiện điểm.
 
 ## 6. Khó khăn và cách xử lý
 
@@ -74,14 +86,14 @@ Các điểm phân tích cần học viên hoàn thiện sau khi có kết quả
 | Gold QC | F1=0,5083, passed=false | Giữ nguyên kết quả, đề xuất rà theo từng ảnh | Chưa rework; cần học viên kiểm lại |
 | Notebook / 10-11-2026 | URL repo còn là mẫu | Thay URL cá nhân và branch main | Đã sửa mã nguồn |
 | Notebook / 10-11-2026 | Clone lại có thể ghi đè thay đổi; fallback token không phù hợp | Kiểm origin, từ chối cập nhật khi có thay đổi; bỏ token trong URL | Đã sửa mã nguồn |
-| Xuất ZIP | Gom cả outputs có thể kéo theo checkpoint/ZIP cũ | Chỉ chọn ảnh, log và metrics | Đã sửa mã nguồn, chờ kiểm phiên Colab |
+| Xuất ZIP | Gom cả outputs có thể kéo theo checkpoint/ZIP cũ | Chỉ chọn ảnh, log và metrics | Đã chạy Colab và tải ZIP; xác nhận 10 ảnh eval, log 50 epoch, không có checkpoint/ZIP lồng nhau |
 
 ## 7. Tự đánh giá theo rubric
 
-Đối chiếu [RUBRIC.md](../../RUBRIC.md): đã có đủ 50 nhãn đúng cấu trúc và kết quả gold QC. Chất lượng annotation chưa đạt cổng F1; guideline và rà ảnh cần học viên xác nhận. Pipeline đã chỉnh nhưng chưa có bằng chứng train/eval hoàn tất. Không tự nhận điểm cho các bước chưa chạy hoặc chưa tự kiểm.
+Đối chiếu [RUBRIC.md](../../RUBRIC.md): đã có đủ 50 nhãn đúng cấu trúc và kết quả gold QC. Chất lượng annotation chưa đạt cổng F1; guideline và rà ảnh cần học viên xác nhận. Pipeline đã chạy đủ 50 epoch, có notebook kèm output, metrics, 10 ảnh eval và biểu đồ; được ghi rõ là thử nghiệm khi gold QC chưa đạt. Không tự nhận điểm cho các bước chưa chạy hoặc chưa tự kiểm.
 
 ## 8. Công cụ AI và tài liệu tham khảo
 
-Codex hỗ trợ đọc code, chạy checker, thống kê nhãn, sửa pipeline notebook, tạo ảnh chồng nhãn và tổng hợp bản nháp này. AI không sửa bộ nhãn hoặc gold. Phần học viên đã tự kiểm cần được học viên xác nhận trước khi nộp; không trình bày nội dung AI gợi ý như phân tích đã tự thực hiện.
+Codex hỗ trợ đọc code, chạy checker, thống kê nhãn, sửa pipeline notebook, tạo ảnh chồng nhãn và tổng hợp bản nháp này. AI điều khiển Colab để chạy train/eval và tải kết quả thật; không sửa bộ nhãn hoặc gold. Phần học viên đã tự kiểm cần được học viên xác nhận trước khi nộp; không trình bày nội dung AI gợi ý như phân tích đã tự thực hiện.
 
 Tài liệu: README.md, RULES.md, GUIDE.md, GUIDELINE_MINI.md, CHECKPOINTS.md, RUBRIC.md, SUBMISSION.md và mẫu báo cáo trong repo. Không đính kèm gold train hoặc thông tin đăng nhập.

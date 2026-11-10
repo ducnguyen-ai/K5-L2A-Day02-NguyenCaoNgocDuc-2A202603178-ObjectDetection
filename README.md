@@ -1,5 +1,16 @@
 # Bài thực hành Ngày 2 - Gán nhãn phát hiện vật thể cho ADAS
 
+## Bài làm Nguyễn Cao Ngọc Đức — 2A202603178
+
+- [Báo cáo cá nhân](report/individual/2A202603178_NguyenCaoNgocDuc.md) và [mini guideline](GUIDELINE_MINI.md).
+- [Notebook Colab của phiên thử nghiệm](https://colab.research.google.com/drive/1ffYqPHqhVnkxo3nR8j2tSafWGl36itzn).
+- [Kết quả gold QC](outputs/annotation_evaluation.json): F1 **0,5083**, mean IoU **0,8542**, **chưa đạt**. Lần train YOLO là thử nghiệm theo yêu cầu học viên; không thay thế điều kiện QC.
+- Checker đã đạt 50/50 nhãn train và 10/10 nhãn eval. Nhãn gốc được giữ tại commit `2c0c67b`.
+- YOLO26n đã chạy đủ 50 epoch trên Tesla T4: precision **0,1881**, recall **0,4671**, mAP50 **0,3047**, mAP50–95 **0,2011**. [Metrics](report/individual/assets/model_eval_metrics.json), [ảnh eval](report/individual/assets/eval_predictions/visuals/), [log train/eval](report/individual/assets/yolo26_runs/). Notebook trong repo có đầu ra thực tế.
+- Bài hiện cần học viên xác nhận guideline/phân tích và xử lý phần annotation chưa đạt trước khi tự nộp.
+
+Phần bên dưới là đề bài và hướng dẫn gốc.
+
 **Bài cá nhân.** Mỗi học viên tự làm và nộp bộ nhãn của mình. Hạn nộp: **11:59 trưa ngày hôm sau buổi lab (giờ Việt Nam, UTC+7)**. Với buổi ngày 09/11/2026, hạn nộp là **11:59 ngày 10/11/2026**. Nộp bài qua LMS tại [aithucchien.vinuni.edu.vn](https://aithucchien.vinuni.edu.vn).
 
 Repo đề bài: `K5-L2-Day02-ObjectDetection`, dùng chung cho K5 Level 2. Mỗi học viên tự nộp link repo bài làm trên [LMS AI Thực chiến](https://aithucchien.vinuni.edu.vn) bằng tài khoản cá nhân; tên repo và các file cần nộp ở [SUBMISSION.md](SUBMISSION.md).
